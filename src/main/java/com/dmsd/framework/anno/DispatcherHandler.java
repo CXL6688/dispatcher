@@ -12,5 +12,6 @@ import java.lang.annotation.*;
 @Documented
 @Component
 public @interface DispatcherHandler {
-    String value() default "";
+    String value();
+    String groupId() default "default";
 }
