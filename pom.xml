@@ -12,6 +12,7 @@
 	<artifactId>dispatcher</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>dispatcher</name>
+	<packaging>jar</packaging>
 	<description>dispatcher core framework</description>
 
 	<properties>
@@ -28,12 +29,5 @@
 			<artifactId>lombok</artifactId>
 			<version>1.16.18</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-			<version>1.2.58</version>
-		</dependency>
-
 	</dependencies>
 </project>
