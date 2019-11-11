@@ -35,4 +35,8 @@
     IDispatcher<String> dispatcher = dispatcherFactory.createDispatcher("gender", String.class);
     Object result = dispatcher.doDispath("男");
     System.out.println(result);
+    
+## 下一步计划
+TODO 1、节点增加Order来对节点顺序进行控制
+TODO 2、将IF-ELSE-IF和IF-ELSE进行整合
 
