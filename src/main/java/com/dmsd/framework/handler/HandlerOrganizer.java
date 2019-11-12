@@ -11,9 +11,11 @@ import org.springframework.util.CollectionUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -25,6 +27,8 @@ import javax.annotation.PostConstruct;
 public class HandlerOrganizer implements ApplicationContextAware {
   private ApplicationContext APPLICATION_CONTEXT;
   public final static Map<String, List<HandlerNode>> HANDLER_GROUPS = new HashMap<>();
+  public final static Map<String, HandlerMetaData> HANDLER_METADATAS = new HashMap<>();
+
   @Autowired(required = false)
   private HandlerMetaDataLoader handlerMetaDataLoader;
 
@@ -33,16 +37,36 @@ public class HandlerOrganizer implements ApplicationContextAware {
     log.debug("start to init handlers");
     if (HANDLER_GROUPS.isEmpty()) {
       orgHandlersByGroup();
-      if(handlerMetaDataLoader!=null){
-        Map<String,HandlerMetaData> metaDatas= handlerMetaDataLoader.load();
-        if(!CollectionUtils.isEmpty(metaDatas)){
-          Iterator<Map.Entry<String,HandlerMetaData>> iterator= metaDatas.entrySet().iterator();
-          while(iterator.hasNext()){
+      appyMetaDataPriority();
+      sortEachGroupHandlers();
+    }
+  }
 
+  private void appyMetaDataPriority() {
+    if(handlerMetaDataLoader!=null){
+      Map<String, HandlerMetaData> metaDatas= handlerMetaDataLoader.load();
+      if(!CollectionUtils.isEmpty(metaDatas)){
+        Set<String> reOrderGroup=new HashSet<>();
+        Iterator<Map.Entry<String,HandlerMetaData>> iterator= metaDatas.entrySet().iterator();
+        while(iterator.hasNext()){
+          Map.Entry<String,HandlerMetaData> entry=iterator.next();
+          String handlerId=entry.getKey();
+          HandlerMetaData handlerMetaData=entry.getValue();
+          List<HandlerNode> handlerNodeList= HANDLER_GROUPS.get(handlerMetaData.getGroupId());
+          if(!CollectionUtils.isEmpty(handlerNodeList)){
+            for(HandlerNode handlerNode:handlerNodeList){
+              if(handlerNode.getId().equals(handlerId)){
+                handlerNode.setOrder(handlerMetaData.getOrder());
+              }
+            }
           }
+          HANDLER_METADATAS.put(handlerId,handlerMetaData);
+        }
+        Iterator<String> reOrderIterator= reOrderGroup.iterator();
+        while (reOrderIterator.hasNext()){
+          Collections.sort(HANDLER_GROUPS.get(reOrderIterator.next()));
         }
       }
-      sortEachGroupHandlers();
     }
   }
 
