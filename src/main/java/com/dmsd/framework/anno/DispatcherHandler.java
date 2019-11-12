@@ -14,4 +14,5 @@ import java.lang.annotation.*;
 public @interface DispatcherHandler {
     String value();
     String groupId() default "default";
+    int order() default 0;
 }
