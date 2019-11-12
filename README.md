@@ -37,7 +37,7 @@
     System.out.println(result);
     
 ## 下一步计划
-TODO 1、节点增加Order来对节点顺序进行控制
+TODO 1、支持web端动态修改处理节点关系
 
-TODO 2、将IF-ELSE-IF和IF-ELSE进行整合
+TODO 2、支持处理节点在多个Group中复用
 
