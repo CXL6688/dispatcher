@@ -22,7 +22,6 @@ import javax.annotation.PostConstruct;
 /**
  * Created by CXL on 2019/11/1.
  */
-@Component
 @Slf4j
 public class HandlerOrganizer implements ApplicationContextAware {
   private ApplicationContext APPLICATION_CONTEXT;
