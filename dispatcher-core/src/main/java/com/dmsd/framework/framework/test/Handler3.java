@@ -1,7 +1,7 @@
-package com.dmsd.framework.test;
+package com.dmsd.framework.framework.test;
 
-import com.dmsd.framework.anno.DispatcherHandler;
-import com.dmsd.framework.handler.IHandler;
+import com.dmsd.framework.framework.anno.DispatcherHandler;
+import com.dmsd.framework.framework.handler.IHandler;
 
 /**
  * Created by CXL on 2019/11/1.

@@ -1,4 +1,4 @@
-package com.dmsd.framework.dispatcher;
+package com.dmsd.framework.framework.dispatcher;
 
 import org.springframework.stereotype.Component;
 import java.util.Map;

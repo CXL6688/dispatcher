@@ -1,4 +1,4 @@
-package com.dmsd.framework.handler;
+package com.dmsd.framework.framework.handler;
 
 import lombok.Data;
 

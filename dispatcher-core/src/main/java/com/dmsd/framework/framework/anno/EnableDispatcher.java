@@ -1,6 +1,6 @@
-package com.dmsd.framework.anno;
+package com.dmsd.framework.framework.anno;
 
-import com.dmsd.framework.handler.HandlerOrganizer;
+import com.dmsd.framework.framework.handler.HandlerOrganizer;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.Documented;

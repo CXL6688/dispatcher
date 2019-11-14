@@ -6,28 +6,24 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.9.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
+
+    <modules>
+        <module>dispatcher-core</module>
+		<module>dispatcher-web</module>
+	</modules>
+
 	<groupId>com.dmsd</groupId>
 	<artifactId>dispatcher</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>dispatcher</name>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 	<description>dispatcher core framework</description>
 
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.16.18</version>
-		</dependency>
-	</dependencies>
+
 </project>

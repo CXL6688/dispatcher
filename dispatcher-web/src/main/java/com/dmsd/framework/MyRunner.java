@@ -1,8 +1,8 @@
 package com.dmsd.framework;
 
-import com.dmsd.framework.anno.EnableDispatcher;
-import com.dmsd.framework.dispatcher.DispatcherFactory;
-import com.dmsd.framework.dispatcher.IDispatcher;
+import com.dmsd.framework.framework.anno.EnableDispatcher;
+import com.dmsd.framework.framework.dispatcher.DispatcherFactory;
+import com.dmsd.framework.framework.dispatcher.IDispatcher;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;

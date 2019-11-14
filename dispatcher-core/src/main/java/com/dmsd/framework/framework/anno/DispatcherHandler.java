@@ -1,4 +1,4 @@
-package com.dmsd.framework.anno;
+package com.dmsd.framework.framework.anno;
 
 import org.springframework.stereotype.Component;
 

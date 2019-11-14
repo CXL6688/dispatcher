@@ -1,4 +1,4 @@
-package com.dmsd.framework.dispatcher;
+package com.dmsd.framework.framework.dispatcher;
 
 /**
  * Created by CXL on 2019/10/31.

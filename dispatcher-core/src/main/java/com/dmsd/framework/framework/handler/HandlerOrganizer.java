@@ -1,11 +1,10 @@
-package com.dmsd.framework.handler;
+package com.dmsd.framework.framework.handler;
 
-import com.dmsd.framework.anno.DispatcherHandler;
+import com.dmsd.framework.framework.anno.DispatcherHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
