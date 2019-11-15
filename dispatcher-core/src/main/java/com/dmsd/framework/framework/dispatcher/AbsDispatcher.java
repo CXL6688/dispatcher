@@ -18,7 +18,7 @@ public abstract class AbsDispatcher<T> implements IDispatcher<T>{
     }
 
     @Override
-    public Object doDispath(T t) {
+    public final Object doDispath(T t) {
         List<HandlerNode> list=HandlerOrganizer.HANDLER_GROUPS.get(this.id);
         for (HandlerNode handlerNode:list){
             if(handlerNode.getHandler().canExecute(t)){

@@ -1,4 +1,4 @@
-package com.dmsd.framework.framework.test;
+package com.dmsd.framework.test;
 
 import com.dmsd.framework.framework.anno.DispatcherHandler;
 import com.dmsd.framework.framework.handler.IHandler;

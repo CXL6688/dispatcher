@@ -14,10 +14,11 @@ import org.springframework.context.ConfigurableApplicationContext;
 @EnableDispatcher
 public class MyRunner {
   public static void main(String[] args) {
-    ConfigurableApplicationContext context = SpringApplication.run(MyRunner.class);
-    DispatcherFactory dispatcherFactory = context.getBean(DispatcherFactory.class);
-    IDispatcher<String> dispatcher = dispatcherFactory.createDispatcher("gender", String.class);
-    Object result = dispatcher.doDispath("男");
-    System.out.println(result);
+    SpringApplication.run(MyRunner.class);
+//    ConfigurableApplicationContext context = SpringApplication.run(MyRunner.class);
+//    DispatcherFactory dispatcherFactory = context.getBean(DispatcherFactory.class);
+//    IDispatcher<String> dispatcher = dispatcherFactory.createDispatcher("gender", String.class);
+//    Object result = dispatcher.doDispath("男");
+//    System.out.println(result);
   }
 }

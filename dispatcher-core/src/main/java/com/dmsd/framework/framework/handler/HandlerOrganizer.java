@@ -5,7 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,47 +27,67 @@ import javax.annotation.PostConstruct;
 public class HandlerOrganizer implements ApplicationContextAware {
   private ApplicationContext APPLICATION_CONTEXT;
   public final static Map<String, List<HandlerNode>> HANDLER_GROUPS = new HashMap<>();
-  public final static Map<String, HandlerMetaData> HANDLER_METADATAS = new HashMap<>();
 
   @Autowired(required = false)
   private HandlerMetaDataLoader handlerMetaDataLoader;
+
+
 
   @PostConstruct
   private void initHandlers() {
     log.debug("start to init handlers");
     if (HANDLER_GROUPS.isEmpty()) {
       orgHandlersByGroup();
-      appyMetaDataPriority();
+      asyncMetaData();
       sortEachGroupHandlers();
     }
   }
 
-  private void appyMetaDataPriority() {
-    if(handlerMetaDataLoader!=null){
-      Map<String, HandlerMetaData> metaDatas= handlerMetaDataLoader.load();
-      if(!CollectionUtils.isEmpty(metaDatas)){
-        Set<String> reOrderGroup=new HashSet<>();
-        Iterator<Map.Entry<String,HandlerMetaData>> iterator= metaDatas.entrySet().iterator();
-        while(iterator.hasNext()){
-          Map.Entry<String,HandlerMetaData> entry=iterator.next();
-          String handlerId=entry.getKey();
-          HandlerMetaData handlerMetaData=entry.getValue();
-          List<HandlerNode> handlerNodeList= HANDLER_GROUPS.get(handlerMetaData.getGroupId());
-          if(!CollectionUtils.isEmpty(handlerNodeList)){
-            for(HandlerNode handlerNode:handlerNodeList){
-              if(handlerNode.getId().equals(handlerId)){
-                handlerNode.setOrder(handlerMetaData.getOrder());
-              }
-            }
-          }
-          HANDLER_METADATAS.put(handlerId,handlerMetaData);
-        }
-        Iterator<String> reOrderIterator= reOrderGroup.iterator();
-        while (reOrderIterator.hasNext()){
-          Collections.sort(HANDLER_GROUPS.get(reOrderIterator.next()));
-        }
+  public void reOrderByGroup(String groupId){
+    if(!StringUtils.isEmpty(groupId)){
+      List<HandlerNode> list=HANDLER_GROUPS.get(groupId);
+      if(!CollectionUtils.isEmpty(list)){
+        Collections.sort(list);
       }
     }
+  }
+
+  /**
+   * 这里Map<String, HandlerMetaData> finalLoadedMetaDatas = loadedMetaDatas;
+   * 由于作用域需要修改一下
+   */
+  private void asyncMetaData() {
+    List<HandlerMetaData> refreshMetaData=new ArrayList<>();
+    Map<String, HandlerMetaData> loadedMetaDatas= handlerMetaDataLoader.findAllToMap();
+    if(loadedMetaDatas==null){
+       loadedMetaDatas=new HashMap<>();
+    }
+    Map<String, HandlerMetaData> finalLoadedMetaDatas = loadedMetaDatas;
+    HANDLER_GROUPS.entrySet().forEach(entry->{
+      String groupId=entry.getKey();
+      entry.getValue().forEach(handler->{
+        HandlerMetaData handlerMetaData= finalLoadedMetaDatas.get(handler.getId());
+        if(handlerMetaData!=null){
+          applyMetaData(handler,handlerMetaData);
+        }else{
+          handlerMetaData=handlerToMetaData(groupId,handler);
+        }
+        refreshMetaData.add(handlerMetaData);
+      });
+    });
+    handlerMetaDataLoader.overrideAllData(refreshMetaData);
+  }
+
+  private void applyMetaData(HandlerNode handlerNode,HandlerMetaData handlerMetaData){
+    handlerNode.setOrder(handlerMetaData.getOrder());
+  }
+
+  private HandlerMetaData handlerToMetaData(String groupId,HandlerNode handlerNode){
+    HandlerMetaData handlerMetaData=new HandlerMetaData();
+    handlerMetaData.setHandlerId(handlerNode.getId());
+    handlerMetaData.setGroupId(groupId);
+    handlerMetaData.setOrder(handlerNode.getOrder());
+    return handlerMetaData;
   }
 
   private void sortEachGroupHandlers() {
